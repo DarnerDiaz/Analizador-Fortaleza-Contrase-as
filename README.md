@@ -1,7 +1,7 @@
 # Analizador de Fortaleza de Contraseñas + Gestor Seguro
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-FF4B4B)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.40+-FF4B4B)
 ![Coverage](https://img.shields.io/badge/Coverage-85%25-green)
 ![Tests](https://img.shields.io/badge/Tests-71-passing)
 ![License](https://img.shields.io/badge/License-MIT-green)
