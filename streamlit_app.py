@@ -101,7 +101,7 @@ def detect_patterns(password: str) -> dict:
 st.sidebar.title("🔐 Navegación")
 page = st.sidebar.radio(
     "Selecciona una sección:",
-    ["🏠 Inicio", "🔍 Análisis Individual", "📊 Características"]
+    ["🏠 Inicio", "🔍 Análisis Individual", "� Análisis Masivo", "�📊 Características"]
 )
 
 if page == "🏠 Inicio":
@@ -230,7 +230,115 @@ elif page == "🔍 Análisis Individual":
         else:
             st.success("✔️ Tu contraseña tiene una buena fortaleza. ¡Excelente!")
 
-elif page == "📊 Características":
+elif page == "� Análisis Masivo":
+    st.title("📁 Análisis Masivo de Contraseñas")
+    
+    st.markdown("""
+    📤 Carga un archivo de texto con contraseñas (una por línea) para obtener análisis de todas ellas.
+    
+    **Ejemplo de formato:**
+    ```
+    MiContraseña123!
+    OtraPassword456@
+    TercerPass789#
+    ```
+    """)
+    
+    uploaded_file = st.file_uploader("Selecciona un archivo .txt", type="txt")
+    
+    if uploaded_file is not None:
+        try:
+            content = uploaded_file.read().decode('utf-8')
+            passwords = [line.strip() for line in content.split('\n') if line.strip()]
+            
+            if not passwords:
+                st.warning("⚠️ El archivo está vacío")
+            else:
+                st.info(f"📊 Se encontraron **{len(passwords)}** contraseñas")
+                
+                if st.button("🔍 Analizar todas las contraseñas"):
+                    st.markdown("---")
+                    
+                    analyses = []
+                    
+                    # Analizar cada contraseña
+                    progress_bar = st.progress(0)
+                    for idx, password in enumerate(passwords):
+                        entropy = calculate_entropy(password)
+                        crack_time = estimate_crack_time(entropy)
+                        strength = get_strength_label(entropy)
+                        
+                        analyses.append({
+                            '#': idx + 1,
+                            'Contraseña': '*' * len(password),  # Ocultar
+                            'Longitud': len(password),
+                            'Entropía': entropy,
+                            'Fortaleza': strength,
+                            'Tiempo crack': crack_time
+                        })
+                        
+                        progress_bar.progress((idx + 1) / len(passwords))
+                    
+                    # Estadísticas generales
+                    st.subheader("📊 Resumen General")
+                    
+                    total = len(analyses)
+                    entropias = [a['Entropía'] for a in analyses]
+                    avg_entropy = sum(entropias) / total if total > 0 else 0
+                    strong = sum(1 for a in analyses if a['Entropía'] >= 70)
+                    weak = sum(1 for a in analyses if a['Entropía'] < 50)
+                    
+                    col1, col2, col3, col4, col5 = st.columns(5)
+                    
+                    with col1:
+                        st.metric("Total", total)
+                    with col2:
+                        st.metric("Entropía Promedio", f"{avg_entropy:.1f} bits")
+                    with col3:
+                        st.metric("Fuertes", strong)
+                    with col4:
+                        st.metric("Débiles", weak)
+                    with col5:
+                        st.metric("% Fuertes", f"{(strong/total*100):.0f}%")
+                    
+                    st.markdown("---")
+                    
+                    # Tabla detallada
+                    st.subheader("📋 Análisis Detallado")
+                    
+                    import pandas as pd
+                    df = pd.DataFrame(analyses)
+                    st.dataframe(df, use_container_width=True, hide_index=True)
+                    
+                    # Distribución
+                    st.markdown("---")
+                    st.subheader("📈 Distribución de Fortaleza")
+                    
+                    strength_counts = {}
+                    for a in analyses:
+                        strength = a['Fortaleza']
+                        strength_counts[strength] = strength_counts.get(strength, 0) + 1
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.bar_chart(pd.DataFrame(list(strength_counts.items()), columns=['Nivel', 'Cantidad']).set_index('Nivel'))
+                    
+                    with col2:
+                        entropy_ranges = {
+                            '🔴 Muy débil (<30)': sum(1 for e in entropias if e < 30),
+                            '🟠 Débil (30-50)': sum(1 for e in entropias if 30 <= e < 50),
+                            '🟡 Regular (50-70)': sum(1 for e in entropias if 50 <= e < 70),
+                            '🟢 Fuerte (70-90)': sum(1 for e in entropias if 70 <= e < 90),
+                            '🟢 Muy fuerte (>90)': sum(1 for e in entropias if e >= 90),
+                        }
+                        for label, count in entropy_ranges.items():
+                            st.write(f"{label}: **{count}**")
+        
+        except Exception as e:
+            st.error(f"❌ Error al procesar archivo: {e}")
+
+elif page == "�📊 Características":
     st.title("📊 Características del Proyecto")
     
     st.subheader("🛠️ Tecnologías")

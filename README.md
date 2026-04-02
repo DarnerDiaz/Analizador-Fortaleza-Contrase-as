@@ -6,6 +6,8 @@
 ![Tests](https://img.shields.io/badge/Tests-71-passing)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+🌐 **[Demo en vivo](https://jbfzyvfnnvgsoddtzd52nn.streamlit.app/)** - ¡Pruébalo sin instalar nada!
+
 Herramienta web interactiva para analizar la fortaleza de contraseñas, detectar patrones débiles y guardarlas de forma segura con cifrado AES-256.
 
 ## 📋 Descripción
