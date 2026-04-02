@@ -1,9 +1,10 @@
 # Analizador de Fortaleza de Contraseñas + Gestor Seguro
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-71%20passed-brightgreen.svg)]()
-[![Code Coverage](https://img.shields.io/badge/coverage-%3E85%25-brightgreen.svg)]()
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.38+-FF4B4B)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-green)
+![Tests](https://img.shields.io/badge/Tests-71-passing)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 Herramienta web interactiva para analizar la fortaleza de contraseñas, detectar patrones débiles y guardarlas de forma segura con cifrado AES-256.
 
